@@ -5,6 +5,7 @@ sequenceDiagram;
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note;
     activate server;
+    Note left of server: The server saves the new note and sends responds with status 302.;
     server->>browser: Redirect to /exampleapp/notes;
     deactivate server;
 
