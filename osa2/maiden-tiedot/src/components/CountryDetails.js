@@ -28,17 +28,38 @@ const CountryFlag = (props) => (
     </div>
 )
 
-const CountryWeather = (props) => (
-    <div>
-        <h2>Weather in {props.country.capital[0]}</h2>
-        <p>temperature {props.weather.main.temp - 273.15} Celsius</p>
-        <img src={`http://openweathermap.org/img/wn/${props.weather.weather[0].icon}@2x.png`} alt="Weather icon" />
-    </div>
+const WeatherTitle = (props) => (
+    <h2>Weather in {props.country.capital[0]}</h2>
 )
 
-const CountryDetails = (props) => {
-    console.log(props.weather.main.temp)
+const WeatherData = (props) => (
+    props.weather && (
+        <>
+            <p>temperature {props.weather.main.temp - 273.15} Celsius</p>
+            <img src={`http://openweathermap.org/img/wn/${props.weather.weather[0].icon}@2x.png`} alt="Weather icon" />
+            <p>wind {props.weather.wind.speed} m/s</p>
+        </>
+    )
+)
+
+const CountryWeather = (props) => {
+    const [weather, setWeather] = useState(null)
+    useEffect(() => {
+        weatherService
+            .getCapitalWeather(props.country)
+            .then((res) => setWeather(res))
+            .catch((err) => console.log(`Failed to fetch weather for ${props.country.capital[0]}!`))
+    }, [props.country])
     return (
+        <div>
+            <WeatherTitle country={props.country} />
+            <WeatherData weather={weather} />
+        </div>
+    )
+}
+
+const CountryDetails = (props) => (
+    props.country && (
         <div>
             <CountryName country={props.country} />
             <CountryCapital country={props.country} />
@@ -48,6 +69,6 @@ const CountryDetails = (props) => {
             <CountryWeather country={props.country} weather={props.weather}/>
         </div>
     )
-}
+)
 
 export default CountryDetails

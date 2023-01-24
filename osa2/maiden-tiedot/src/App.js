@@ -12,7 +12,6 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [activeView, setActiveView] = useState('list')
   const [countriesToShow, setCountriesToShow] = useState([])
-  const [weather, setWeather] = useState(null)
 
   // Effect hooks
   useEffect(() => {
@@ -52,14 +51,6 @@ const App = () => {
     }
   }, [countriesToShow])
 
-  useEffect(() => {
-    if (activeView === 'details') {
-      weatherService
-        .getCapitalWeather(countriesToShow[0])
-        .then(res => setWeather(res))
-    }
-  }, [activeView, countriesToShow])
-
   // Handlers
   const handleSearchValueChange = (event) => {
     setSearchValue(event.target.value)
@@ -74,7 +65,7 @@ const App = () => {
   }
 
   const chooseView = () => {
-    if (activeView === 'list' || !weather) {
+    if (activeView === 'list') {
       return (<CountryList
       countries={countriesToShow}
       handleClick={handleClick} />)
@@ -82,7 +73,7 @@ const App = () => {
     else {
       console.log('We are in else-statement')
       return (<CountryDetails
-        country={countriesToShow[0]} weather={weather}/>)
+        country={countriesToShow[0]}/>)
     }
   }
 
