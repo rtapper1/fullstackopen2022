@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 const Notification = (props) => {
   if (!props.notification) {
     return (<></>)

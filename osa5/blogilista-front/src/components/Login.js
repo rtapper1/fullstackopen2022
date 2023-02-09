@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 import login from '../services/login'
 import blogService from '../services/blogs'
 
 const Form = (props) => (
   <form onSubmit={props.handleSubmit}>
     <div>
-      username <input type='username' value={props.username} onChange={({target}) => props.onUsernameChange(target.value)} />
+      username <input type='username' value={props.username} onChange={({ target }) => props.onUsernameChange(target.value)} />
     </div>
     <div>
-      password <input type='password' value={props.password} onChange={({target}) => props.onPasswordChange(target.value)} />
+      password <input type='password' value={props.password} onChange={({ target }) => props.onPasswordChange(target.value)} />
     </div>
     <div>
       <input type='submit' />
@@ -34,7 +34,7 @@ const Login = (props) => {
       blogService.setToken(user.token)
     }
   }, [user])
-  
+
   const handleSubmit = (event) => {
     event.preventDefault()
     login(username, password)
@@ -50,7 +50,7 @@ const Login = (props) => {
         console.log('Login failed!', err)
         props.setNotification({
           error: true,
-          message: `Wrong username or password!`
+          message: 'Wrong username or password!'
         })
       })
       .finally(() => {
@@ -58,7 +58,7 @@ const Login = (props) => {
         setPassword('')
       })
   }
-  
+
   const handleLogout = () => {
     window.localStorage.clear()
     setUser(undefined)
@@ -67,12 +67,12 @@ const Login = (props) => {
 
   return (
     <div>
-      {!user && Form({handleSubmit, 
-        username, 
+      {!user && Form({ handleSubmit,
+        username,
         onUsernameChange: setUsername,
         password,
-        onPasswordChange: setPassword})}
-      {user && UserText({name: user.name, handleClick: handleLogout})}
+        onPasswordChange: setPassword })}
+      {user && UserText({ name: user.name, handleClick: handleLogout })}
     </div>
   )
 }
