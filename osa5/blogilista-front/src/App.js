@@ -11,7 +11,7 @@ const App = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('Notification deleted')
+      //console.log('Notification deleted')
       setNotification(undefined)
     }, 5000)
   }, [notification])
@@ -23,20 +23,22 @@ const App = () => {
   }, [])
 
   return (
-    <div>
+    <div id='main-view'>
       <h2>blogs</h2>
       <Notification notification={notification}/>
-      <Login setNotification={setNotification}/>
+      <Login onUserChange={setBlogs} setNotification={setNotification}/>
       <Input onBlogAdd={setBlogs} setNotification={setNotification}/>
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            onUpdate={setBlogs}
-            setNotification={setNotification}/>
-        )}
+      <div className='blogs'>
+        {blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map(blog =>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              onUpdate={setBlogs}
+              setNotification={setNotification}/>
+          )}
+      </div>
     </div>
   )
 }

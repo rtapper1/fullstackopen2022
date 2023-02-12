@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import getUser from '../utils/helperFunctions'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, onUpdate, setNotification }) => {
@@ -43,18 +44,20 @@ const Blog = ({ blog, onUpdate, setNotification }) => {
   }
 
   return (
-    <>
-      <div className='blog' id='compact-blog' style={{ display: fullInfo ? 'none' : '' }}>
-        {blog.title} {blog.author} <button onClick={toggleFullInfo}>view</button>
+    <div className='blog'>
+      <div className='compact-blog' style={{ display: fullInfo ? 'none' : '' }}>
+        {blog.title} {blog.author} <button className='full-info-button' onClick={toggleFullInfo}>view</button>
       </div>
-      <div className='blog' id='long-blog' style={{ display: fullInfo ? '' : 'none' }}>
-        {blog.title} {blog.author} <button onClick={toggleFullInfo}>hide</button><br/>
+      <div className='long-blog' style={{ display: fullInfo ? '' : 'none' }}>
+        {blog.title} {blog.author} <button className='hide-info-button' onClick={toggleFullInfo}>hide</button><br/>
         {blog.url}<br/>
-      likes {blog.likes} <button onClick={handleLike}>like</button><br/>
+      likes {blog.likes} <button className='like-button' onClick={handleLike}>like</button><br/>
         {blog.user.name} <br/>
-        <button className='deleteButton' onClick={handleDelete}>remove</button>
+        {blog.user.username === getUser().username &&
+          (<button className='delete-button' onClick={handleDelete}>remove</button>)
+        }
       </div>
-    </>
+    </div>
   )
 }
 

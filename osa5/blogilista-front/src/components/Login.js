@@ -5,19 +5,19 @@ import blogService from '../services/blogs'
 const Form = (props) => (
   <form onSubmit={props.handleSubmit}>
     <div>
-      username <input type='username' value={props.username} onChange={({ target }) => props.onUsernameChange(target.value)} />
+      username <input id='username' type='username' value={props.username} onChange={({ target }) => props.onUsernameChange(target.value)} />
     </div>
     <div>
-      password <input type='password' value={props.password} onChange={({ target }) => props.onPasswordChange(target.value)} />
+      password <input id='password' type='password' value={props.password} onChange={({ target }) => props.onPasswordChange(target.value)} />
     </div>
     <div>
-      <input type='submit' />
+      <input id='login-button' type='submit' />
     </div>
   </form>
 )
 
 const UserText = (props) => (
-  <div>{props.name} logged in <button onClick={props.handleClick}>logout</button></div>
+  <div>{props.name} logged in <button id='logout-button' onClick={props.handleClick}>logout</button></div>
 )
 
 const Login = (props) => {
@@ -63,6 +63,10 @@ const Login = (props) => {
     window.localStorage.clear()
     setUser(undefined)
     blogService.setToken(undefined)
+    blogService.getAll()
+      .then(res => {
+        props.onUserChange(res)
+      })
   }
 
   return (
