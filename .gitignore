@@ -1,1 +1,4 @@
-osa5/blogilista-front/node_modules/.bin/css-has-pseudo
+osa5/blogilista-front/node_modules/
+osa6/unicafe-redux/node_modules/
+osa6/anecdotes-query/node_modules/
+.DS_Store
