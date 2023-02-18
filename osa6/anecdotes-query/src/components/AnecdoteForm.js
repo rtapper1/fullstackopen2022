@@ -11,7 +11,7 @@ const AnecdoteForm = () => {
       queryClient.invalidateQueries('anecdotes')
     }
   })
-  const [notif, dispatch] = useContext(NotifContext)
+  const [, dispatch] = useContext(NotifContext)
 
   const onCreate = (event) => {
     event.preventDefault()

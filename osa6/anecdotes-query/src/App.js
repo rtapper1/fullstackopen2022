@@ -7,7 +7,7 @@ import { getAnecdotes, updateAnecdote } from './requests'
 
 const App = () => {
   const queryClient = useQueryClient()
-  const [notif, dispatch] = useContext(NotifContext)
+  const [, dispatch] = useContext(NotifContext)
 
   const updateAnecdoteMutation = useMutation(updateAnecdote, {
     onSuccess: () => {
