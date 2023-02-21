@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import blogService from '../services/blogs'
 import { notify } from './notificationReducer'
+import { initUsers } from './usersReducer'
 
 const asObject = (title, author, url) => ({
   title,
@@ -40,14 +41,21 @@ export const initBlogs = () => {
 
 export const createBlog = (title, author, url) => {
   return (dispatch) => {
+    let properUrl
+    if (!/^http/.test(url)) {
+      properUrl = `https://${url}`
+    } else {
+      properUrl = url
+    }
     blogService
-      .createBlog(asObject(title, author, url))
+      .createBlog(asObject(title, author, properUrl))
       .then((res) => {
         dispatch(addBlog(res))
         dispatch(
           notify(`A new blog ${res.title} by ${res.author} added`, 'info')
         )
         dispatch(initBlogs())
+        dispatch(initUsers())
       })
       .catch((err) => {
         console.log('Creating new blog failed:', err)
@@ -65,6 +73,7 @@ export const removeBlog = (blog) => {
       .then(() => {
         dispatch(deleteBlog(blog))
         dispatch(initBlogs())
+        dispatch(initUsers())
       })
       .catch((err) => {
         console.log('Something went wrong while deleting', err)
@@ -85,6 +94,7 @@ export const likeBlog = (blog) => {
       .then(() => {
         dispatch(addLike(blog))
         dispatch(initBlogs())
+        dispatch(initUsers())
       })
       .catch((err) => {
         console.log(`Something went wrong with like: ${err}`)

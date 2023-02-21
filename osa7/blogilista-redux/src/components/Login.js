@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { signInUser, signOutUser } from '../reducers/userReducer'
 
 const Form = (props) => (
@@ -28,26 +29,19 @@ const Form = (props) => (
   </form>
 )
 
-const UserText = (props) => (
-  <div>
-    {props.name} logged in{' '}
-    <button id="logout-button" onClick={props.handleClick}>
-      logout
-    </button>
-  </div>
-)
-
 const Login = () => {
   const dispatch = useDispatch()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const user = useSelector((state) => state.user)
+  const navigate = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault()
     dispatch(signInUser(username, password))
     setUsername('')
     setPassword('')
+    navigate('/')
   }
 
   const handleLogout = () => {
@@ -64,7 +58,12 @@ const Login = () => {
           password,
           onPasswordChange: setPassword,
         })}
-      {user && UserText({ name: user.name, handleClick: handleLogout })}
+      {user && (
+        <div>
+          User {user.name} signed in.{' '}
+          <button onClick={handleLogout}>logout</button>
+        </div>
+      )}
     </div>
   )
 }
