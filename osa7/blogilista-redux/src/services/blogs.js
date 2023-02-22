@@ -35,10 +35,15 @@ const likeBlog = (blog) => {
     author: blog.author,
     title: blog.title,
     url: blog.url,
+    comments: blog.comments,
   }
   return axios
     .put(`${baseUrl}/${blog.id}`, updatedBlog, config)
     .then((res) => res.data)
+}
+
+const commentBlog = (blog, comment) => {
+  return axios.post(`${baseUrl}/${blog.id}/comments`, { comment })
 }
 
 const deleteBlog = (blog) => {
@@ -50,4 +55,11 @@ const deleteBlog = (blog) => {
   return axios.delete(`${baseUrl}/${blog.id}`, config).then((res) => res.data)
 }
 
-export default { getAll, setToken, createBlog, likeBlog, deleteBlog }
+export default {
+  getAll,
+  setToken,
+  createBlog,
+  likeBlog,
+  deleteBlog,
+  commentBlog,
+}

@@ -20,7 +20,7 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <>
+    <div className="container">
       <Navigation />
       <div id="main-view">
         <h2>blogs</h2>
@@ -33,7 +33,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
         </Routes>
       </div>
-    </>
+    </div>
   )
 }
 

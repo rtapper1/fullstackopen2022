@@ -1,8 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { likeBlog } from '../reducers/blogsReducer'
-import { removeBlog } from '../reducers/blogsReducer'
+import { likeBlog, removeBlog, commentBlog } from '../reducers/blogsReducer'
 
 const BlogPage = () => {
   const { id } = useParams()
@@ -36,15 +35,31 @@ const BlogPage = () => {
         >
           like
         </button>
-        <div>added by {blog.user.name}</div>
-        {user && user.username === blog.user.username ? (
-          <div>
-            <button className="delete-button" onClick={handleDelete}>
-              delete
-            </button>
-          </div>
-        ) : null}
       </div>
+      <div>added by {blog.user.name}</div>
+      {user && user.username === blog.user.username ? (
+        <div>
+          <button className="delete-button" onClick={handleDelete}>
+            delete
+          </button>
+        </div>
+      ) : null}
+      <h3>comments</h3>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          dispatch(commentBlog(blog, event.target.comment.value))
+          event.target.comment.value = ''
+        }}
+      >
+        <input name="comment" />
+        <button type="submit">add comment</button>
+      </form>
+      <ul>
+        {blog.comments.map((c, i) => (
+          <li key={i}>{c}</li>
+        ))}
+      </ul>
     </div>
   )
 }

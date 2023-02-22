@@ -1,5 +1,9 @@
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
 
 import { signOutUser } from '../reducers/userReducer'
 
@@ -18,27 +22,26 @@ const UserText = (props) => {
 const Navigation = () => {
   const user = useSelector((state) => state.user)
   return (
-    <div className="nav-bar">
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <Link to="/">blogs</Link>
-            </th>
-            <th>
-              <Link to="/users">users</Link>
-            </th>
-            <th>
-              {user ? (
-                <UserText name={user.name} />
-              ) : (
-                <Link to="/login">login</Link>
-              )}
-            </th>
-          </tr>
-        </thead>
-      </table>
-    </div>
+    <Navbar bg="primary" variant="dark" expand="sm">
+      <Container>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/">blogs</Nav.Link>
+            <Nav.Link href="/users">users</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        <Navbar.Collapse className="justify-content-end">
+          {!user ? (
+            <Nav.Link href="/login">login</Nav.Link>
+          ) : (
+            <Navbar.Text>
+              <UserText name={user.name} />
+            </Navbar.Text>
+          )}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   )
 }
 

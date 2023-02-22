@@ -22,6 +22,7 @@ export const signInUser = (username, password) => {
     login(username, password)
       .then((res) => {
         dispatch(setUser(res))
+        blogService.setToken(res.token)
         window.localStorage.setItem('user', JSON.stringify(res))
         dispatch(notify(`User ${res.name} signed in successfully!`, 'info'))
       })

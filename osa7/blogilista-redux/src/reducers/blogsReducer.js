@@ -28,10 +28,21 @@ const blogSlice = createSlice({
       const modifiedBlog = { ...likedBlog, likes: likedBlog.likes + 1 }
       return state.map((s) => (s.id !== action.payload.id ? s : modifiedBlog))
     },
+    addComment: (state, action) => {
+      const blog = state.find((s) => s.id === action.payload.blog.id)
+      const commentedBlog = {
+        ...blog,
+        comments: blog.comments.concat(action.payload.comment),
+      }
+      return state.map((s) =>
+        s.id !== action.payload.blog.id ? s : commentedBlog
+      )
+    },
   },
 })
 
-export const { setBlogs, addBlog, deleteBlog, addLike } = blogSlice.actions
+export const { setBlogs, addBlog, deleteBlog, addLike, addComment } =
+  blogSlice.actions
 
 export const initBlogs = () => {
   return (dispatch) => {
@@ -99,6 +110,14 @@ export const likeBlog = (blog) => {
       .catch((err) => {
         console.log(`Something went wrong with like: ${err}`)
       })
+  }
+}
+
+export const commentBlog = (blog, comment) => {
+  return (dispatch) => {
+    blogService.commentBlog(blog, comment).then(() => {
+      dispatch(addComment({ blog, comment }))
+    })
   }
 }
 
