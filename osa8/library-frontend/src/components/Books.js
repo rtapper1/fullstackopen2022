@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { useQuery } from '@apollo/client'
 import { useState } from 'react'
 import { ALL_BOOKS, ALL_GENRES } from '../queries'
