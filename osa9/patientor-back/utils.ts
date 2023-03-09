@@ -1,4 +1,4 @@
-import { NewPatient, Gender } from './types';
+import { NewPatient, Gender, NewEntry } from './types';
 
 const isString = (object: unknown): object is string => {
   return typeof object === 'string' || object instanceof String;
@@ -47,4 +47,43 @@ export const toNewPatient = (object: unknown): NewPatient => {
   }
 
   throw new Error('Missing fields in input data!');
+};
+
+export const toNewEntry = (object: unknown): NewEntry => {
+  if (!object || typeof object !== 'object') {
+    throw new Error('Missing or bad input!');
+  }
+  if (
+    'description' in object &&
+    'date' in object &&
+    'specialist' in object &&
+    'type' in object
+  ) {
+    switch (object.type) {
+      case 'Hospital':
+        if ('discharge' in object) {
+          break;
+        } else {
+          throw new Error('Discharge attribute missing!');
+        }
+      case 'HealthCheck':
+        if ('healthCheckRating' in object) {
+          break;
+        } else {
+          throw new Error('Health check rating attribute missing!');
+        }
+      case 'OccupationalHealthCare':
+        if ('employer' in object && 'sickLeave' in object) {
+          break;
+        } else {
+          throw new Error(
+            'Occupational healthcare attribute(s) check rating attribute missing!'
+          );
+        }
+      default:
+        throw new Error('Unknown type!');
+    }
+    return object as NewEntry;
+  }
+  throw new Error('Unknown data format!');
 };

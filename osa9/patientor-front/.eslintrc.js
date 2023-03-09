@@ -1,16 +1,26 @@
+/* eslint-disable no-undef */
 module.exports = {
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-  ],
-  plugins: ['@typescript-eslint'],
   env: {
     browser: true,
     es6: true,
-    node: true,
+    jest: true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'prettier',
+  ],
+  plugins: ['react', '@typescript-eslint'],
+  settings: {
+    react: {
+      pragma: 'React',
+      version: 'detect',
+    },
   },
   rules: {
+    'react/react-in-jsx-scope': 0,
     '@typescript-eslint/semi': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -20,8 +30,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'no-case-declarations': 'off',
   },
-  parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
+    project: ['./tsconfig.json'],
   },
 };
